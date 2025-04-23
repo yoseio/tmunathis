@@ -1,3 +1,5 @@
+import { CampusMap } from "@/components/campus-map";
+
 export default function Page() {
-  return <h1>TODO: 図鑑</h1>;
+  return <CampusMap />;
 }

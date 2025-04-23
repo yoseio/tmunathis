@@ -22,11 +22,7 @@ export const metadata: Metadata = {
   description: "東京都立大学のインカレ生物サークルです！",
 };
 
-export default function Layout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function Layout(props: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ja">
       <body
@@ -45,9 +41,7 @@ export default function Layout({
             <AppHeader />
             <div className="flex flex-1 flex-col">
               <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-                  {children}
-                </div>
+                {props.children}
               </div>
             </div>
           </SidebarInset>
