@@ -12,29 +12,34 @@ export interface PostMetadata {
 export async function getAllPostMetadata(): Promise<PostMetadata[]> {
   const res = await NotionClient.databases.query({
     database_id: DATABASE_ID,
-    sorts: [{
-      property: '日付',
-      direction: 'descending',
-    }],
-  })
-  const posts = res.results.map((post: any) => ({
-    id: post.id,
-    title: post.properties.タイトル.title[0].text.content,
-    date: new Date(post.properties.日付.date.start),
-  } as PostMetadata));
-  return posts
+    sorts: [
+      {
+        property: "日付",
+        direction: "descending",
+      },
+    ],
+  });
+  const posts = res.results.map(
+    (post: any) =>
+      ({
+        id: post.id,
+        title: post.properties.タイトル.title[0].text.content,
+        date: new Date(post.properties.日付.date.start),
+      }) as PostMetadata,
+  );
+  return posts;
 }
 
 export async function getPostMetadata(id: string): Promise<PostMetadata> {
   const res = await NotionClient.pages.retrieve({
     page_id: id,
-  })
+  });
   const post = {
     id: res.id,
     title: (res as any).properties.タイトル.title[0].text.content,
     date: new Date((res as any).properties.日付.date.start),
-  } as PostMetadata
-  return post
+  } as PostMetadata;
+  return post;
 }
 
 export async function getPostContent(id: string): Promise<MdBlock[]> {
