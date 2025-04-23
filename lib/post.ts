@@ -2,7 +2,7 @@
 
 import { MdBlock } from "notion-to-md/build/types";
 
-import { DATABASE_ID } from "./constants";
+import { BLOG_DATABASE_ID } from "./constants";
 import { Notion2MD, NotionClient } from "./notion";
 
 export interface PostMetadata {
@@ -13,7 +13,7 @@ export interface PostMetadata {
 
 export async function getAllPostMetadata(): Promise<PostMetadata[]> {
   const res = await NotionClient.databases.query({
-    database_id: DATABASE_ID,
+    database_id: BLOG_DATABASE_ID,
     sorts: [
       {
         property: "日付",
@@ -25,8 +25,8 @@ export async function getAllPostMetadata(): Promise<PostMetadata[]> {
     (post: any) =>
       ({
         id: post.id,
-        title: post.properties.タイトル.title[0].text.content,
-        date: new Date(post.properties.日付.date.start),
+        title: post.properties["タイトル"].title[0].text.content,
+        date: new Date(post.properties["日付"].date.start),
       }) as PostMetadata,
   );
   return posts;
@@ -38,8 +38,8 @@ export async function getPostMetadata(id: string): Promise<PostMetadata> {
   });
   const post = {
     id: res.id,
-    title: (res as any).properties.タイトル.title[0].text.content,
-    date: new Date((res as any).properties.日付.date.start),
+    title: (res as any).properties["タイトル"].title[0].text.content,
+    date: new Date((res as any).properties["日付"].date.start),
   } as PostMetadata;
   return post;
 }
