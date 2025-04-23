@@ -59,6 +59,8 @@ export function CampusMap(props: { species: Species[] }) {
             <h3>{selectedSpecies.name}</h3>
             <p>Phylum: {selectedSpecies.phylum}</p>
             <Image
+              width={150}
+              height={150}
               src={selectedSpecies.picture}
               alt={selectedSpecies.name}
               style={{ width: "100px", height: "100px" }}
