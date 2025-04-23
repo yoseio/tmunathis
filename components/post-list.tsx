@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { format } from "date-fns";
+
 import {
   Card,
   CardDescription,
@@ -5,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getAllPostMetadata, PostMetadata } from "@/lib/post";
-import { format } from "date-fns";
 
 export async function PostList() {
   const posts = await getAllPostMetadata();
@@ -21,13 +23,15 @@ export async function PostList() {
 
 function PostListItem(props: { post: PostMetadata }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{props.post.title}</CardTitle>
-        <CardDescription>
-          {format(props.post.date, "yyyy/MM/dd")}
-        </CardDescription>
-      </CardHeader>
-    </Card>
+    <Link href={`/posts/${props.post.id}`}>
+      <Card>
+        <CardHeader>
+          <CardTitle>{props.post.title}</CardTitle>
+          <CardDescription>
+            {format(props.post.date, "yyyy/MM/dd")}
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </Link>
   );
 }

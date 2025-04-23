@@ -44,7 +44,7 @@ export async function getPostMetadata(id: string): Promise<PostMetadata> {
   return post;
 }
 
-export async function getPostContent(id: string): Promise<MdBlock[]> {
+export async function getPostContents(id: string): Promise<MdBlock[]> {
   const markdown = await Notion2MD.pageToMarkdown(id);
   return markdown;
 }
