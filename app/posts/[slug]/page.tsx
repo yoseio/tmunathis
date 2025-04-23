@@ -1,6 +1,13 @@
 import ReactMarkdown from "react-markdown";
 
-import { getPostContents } from "@/lib/post";
+import { getAllPostMetadata, getPostContents } from "@/lib/post";
+
+export async function generateStaticParams() {
+  const posts = await getAllPostMetadata();
+  return posts.map((post) => ({
+    slug: post.id,
+  }));
+}
 
 export default async function Page(props: {
   params: Promise<{ slug: string }>;
