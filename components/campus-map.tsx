@@ -57,14 +57,13 @@ export function CampusMap(props: { species: Species[] }) {
         >
           <div>
             <h3>{selectedSpecies.name}</h3>
-            {(!selectedSpecies.picture && !selectedSpecies.name) ?? (
-              <Image
-                width={150}
-                height={150}
-                src={selectedSpecies.picture}
-                alt={selectedSpecies.name}
-              />
-            )}
+            <Image
+              width={150}
+              height={150}
+              src={selectedSpecies.picture}
+              alt={selectedSpecies.name}
+              className="w-full h-auto rounded-lg"
+            />
           </div>
         </Popup>
       )}
