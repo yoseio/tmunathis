@@ -28,11 +28,8 @@ function parsePostMetadata(
   if (isTitleProperty(titleProperty) && isDateProperty(dateProperty)) {
     const id = data.id;
     const title = (titleProperty as TitleProperty).title[0].text.content;
-    if (!title) {
-      return null;
-    }
     const date = (dateProperty as DateProperty).date.start;
-    if (!date) {
+    if (!title || !date) {
       return null;
     }
     return { id, title, date: new Date(date) };
