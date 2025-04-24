@@ -1,14 +1,44 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
+import {
+  DatabaseObjectResponse,
+  PageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 import { MdBlock } from "notion-to-md/build/types";
 
 import { BLOG_DATABASE_ID } from "./constants";
-import { Notion2MD, NotionClient } from "./notion";
+import {
+  DateProperty,
+  isDateProperty,
+  isTitleProperty,
+  Notion2MD,
+  NotionClient,
+  TitleProperty,
+} from "./notion";
 
 export interface PostMetadata {
   id: string;
   title: string;
   date: Date;
+}
+
+function parsePostMetadata(
+  data: PageObjectResponse | DatabaseObjectResponse,
+): PostMetadata | null {
+  const titleProperty = data.properties["タイトル"];
+  const dateProperty = data.properties["日付"];
+  if (isTitleProperty(titleProperty) && isDateProperty(dateProperty)) {
+    const id = data.id;
+    const title = (titleProperty as TitleProperty).title[0].text.content;
+    if (!title) {
+      return null;
+    }
+    const date = (dateProperty as DateProperty).date.start;
+    if (!date) {
+      return null;
+    }
+    return { id, title, date: new Date(date) };
+  } else {
+    return null;
+  }
 }
 
 export async function getAllPostMetadata(): Promise<PostMetadata[]> {
@@ -21,27 +51,19 @@ export async function getAllPostMetadata(): Promise<PostMetadata[]> {
       },
     ],
   });
-  const posts = res.results.map(
-    (post: any) =>
-      ({
-        id: post.id,
-        title: post.properties["タイトル"].title[0].text.content,
-        date: new Date(post.properties["日付"].date.start),
-      }) as PostMetadata,
-  );
+  const posts = (res.results as DatabaseObjectResponse[])
+    .map(parsePostMetadata)
+    .filter((item) => item !== null) as PostMetadata[];
   return posts;
 }
 
-export async function getPostMetadata(id: string): Promise<PostMetadata> {
+export async function getPostMetadata(
+  id: string,
+): Promise<PostMetadata | null> {
   const res = await NotionClient.pages.retrieve({
     page_id: id,
   });
-  const post = {
-    id: res.id,
-    title: (res as any).properties["タイトル"].title[0].text.content,
-    date: new Date((res as any).properties["日付"].date.start),
-  } as PostMetadata;
-  return post;
+  return parsePostMetadata(res as PageObjectResponse);
 }
 
 export async function getPostContents(id: string): Promise<MdBlock[]> {
