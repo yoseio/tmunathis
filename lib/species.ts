@@ -10,9 +10,9 @@ export interface Coordinate {
 
 export interface Species {
   id: string;
-  phylum: string;
-  name: string;
-  picture: string;
+  phylum?: string;
+  name?: string;
+  picture?: string;
   coordinate: Coordinate;
 }
 

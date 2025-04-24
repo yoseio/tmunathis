@@ -58,13 +58,15 @@ export function CampusMap(props: { species: Species[] }) {
           <div>
             <h3>{selectedSpecies.name}</h3>
             <p>Phylum: {selectedSpecies.phylum}</p>
-            <Image
-              width={150}
-              height={150}
-              src={selectedSpecies.picture}
-              alt={selectedSpecies.name}
-              style={{ width: "100px", height: "100px" }}
-            />
+            {(!selectedSpecies.picture && !selectedSpecies.name) ?? (
+              <Image
+                width={150}
+                height={150}
+                src={selectedSpecies.picture || "/fallback-image.png"}
+                alt={selectedSpecies.name || "Unknown species"}
+                style={{ width: "100px", height: "100px" }}
+              />
+            )}
           </div>
         </Popup>
       )}
