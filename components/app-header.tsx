@@ -11,6 +11,7 @@ export function AppHeader() {
     index: "ホーム",
     posts: "ブログ",
     dictionary: "図鑑",
+    seashell: "貝殻シミュレータ",
   };
 
   return (

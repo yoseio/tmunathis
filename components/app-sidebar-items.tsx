@@ -1,4 +1,9 @@
-import { IconBook2, IconNews, type Icon } from "@tabler/icons-react";
+import {
+  IconBook2,
+  IconNews,
+  IconSquareRoot2,
+  type Icon,
+} from "@tabler/icons-react";
 
 interface AppSidebarItems {
   title: string;
@@ -9,4 +14,5 @@ interface AppSidebarItems {
 export const AppSidebarItems: AppSidebarItems[] = [
   { title: "ブログ", url: "/posts", icon: IconNews },
   { title: "図鑑", url: "/dictionary", icon: IconBook2 },
+  { title: "貝殻シミュレータ", url: "/seashell", icon: IconSquareRoot2 },
 ];
