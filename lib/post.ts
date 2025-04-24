@@ -6,12 +6,10 @@ import { MdBlock } from "notion-to-md/build/types";
 
 import { BLOG_DATABASE_ID } from "./constants";
 import {
-  DateProperty,
   isDateProperty,
   isTitleProperty,
   Notion2MD,
   NotionClient,
-  TitleProperty,
 } from "./notion";
 
 export interface PostMetadata {
@@ -27,8 +25,9 @@ function parsePostMetadata(
   const dateProperty = data.properties["日付"];
   if (isTitleProperty(titleProperty) && isDateProperty(dateProperty)) {
     const id = data.id;
-    const title = (titleProperty as TitleProperty).title[0].text.content;
-    const date = (dateProperty as DateProperty).date.start;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const title = (titleProperty.title as any)[0].text.content;
+    const date = dateProperty.date?.start;
     if (!title || !date) {
       return null;
     }

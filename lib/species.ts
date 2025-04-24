@@ -2,15 +2,10 @@ import { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints
 
 import { SPECIES_DATABASE_ID } from "./constants";
 import {
-  FilesProperty,
   isFilesProperty,
   isNumberProperty,
-  isSelectProperty,
   isTitleProperty,
   NotionClient,
-  NumberProperty,
-  SelectProperty,
-  TitleProperty,
 } from "./notion";
 
 export interface Coordinate {
@@ -20,40 +15,37 @@ export interface Coordinate {
 
 export interface Species {
   id: string;
-  phylum: string;
   name: string;
   picture: string;
   coordinate: Coordinate;
 }
 
 function parseSpecies(data: DatabaseObjectResponse): Species | null {
-  const phylumProperty = data.properties["Phylum"];
   const nameProperty = data.properties["名前"];
   const pictureProperty = data.properties["画像"];
   const latitudeProperty = data.properties["緯度"];
   const longitudeProperty = data.properties["経度"];
   if (
-    isSelectProperty(phylumProperty) &&
     isTitleProperty(nameProperty) &&
     isFilesProperty(pictureProperty) &&
     isNumberProperty(latitudeProperty) &&
     isNumberProperty(longitudeProperty)
   ) {
     const id = data.id;
-    const phylum = (phylumProperty as SelectProperty).select.options[0].name;
-    const name = (nameProperty as TitleProperty).title[0].text.content;
-    const picture = (pictureProperty as FilesProperty).files[0].file.url;
-    const latitude = (latitudeProperty as NumberProperty).number;
-    const longitude = (longitudeProperty as NumberProperty).number;
-    if (!phylum || !name || !picture || !latitude || !longitude) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const name = (nameProperty.title[0] as any).text.content;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const picture = (pictureProperty.files[0] as any).file.url;
+    const latitude = latitudeProperty.number;
+    const longitude = longitudeProperty.number;
+    if (!name || !picture || !latitude || !longitude) {
       return null;
     }
     return {
       id,
-      phylum,
       name,
       picture,
-      coordinate: { latitude: Number(latitude), longitude: Number(longitude) },
+      coordinate: { latitude, longitude },
     };
   }
   return null;
