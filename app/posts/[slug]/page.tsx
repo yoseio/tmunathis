@@ -2,6 +2,9 @@ import ReactMarkdown from "react-markdown";
 
 import { getAllPostMetadata, getPostContents } from "@/lib/post";
 
+export const revalidate = 60;
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const posts = await getAllPostMetadata();
   return posts.map((post) => ({
