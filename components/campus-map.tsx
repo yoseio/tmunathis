@@ -11,6 +11,7 @@ import {
   TMU_LONGITUDE,
 } from "@/lib/constants";
 import { Species } from "@/lib/species";
+import { MapPin } from "lucide-react";
 
 export function CampusMap(props: { species: Species[] }) {
   const [selectedSpecies, setSelectedSpecies] = useState<Species | null>(null);
@@ -37,15 +38,7 @@ export function CampusMap(props: { species: Species[] }) {
             setSelectedSpecies(species);
           }}
         >
-          <div
-            style={{
-              cursor: "pointer",
-              background: "brown",
-              borderRadius: "50%",
-              width: "10px",
-              height: "10px",
-            }}
-          />
+          <MapPin className="cursor-pointer size-[30px] text-red-600" />
         </Marker>
       ))}
       {selectedSpecies && (
