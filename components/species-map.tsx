@@ -13,7 +13,7 @@ import {
 import { Species } from "@/lib/species";
 import { MapPin } from "lucide-react";
 
-export function CampusMap(props: { species: Species[] }) {
+export function SpeciesMap(props: { species: Species[] }) {
   const [selectedSpecies, setSelectedSpecies] = useState<Species | null>(null);
 
   return (

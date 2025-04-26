@@ -10,7 +10,8 @@ export function AppHeader() {
   const segmentMap: Record<string, string> = {
     index: "ホーム",
     posts: "ブログ",
-    dictionary: "図鑑",
+    species: "図鑑",
+    maps: "地図",
     seashell: "貝殻シミュレータ",
   };
 
