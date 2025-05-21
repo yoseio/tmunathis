@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { AppHeader } from "@/components/app-header";
 import { AppSidebar } from "@/components/app-sidebar";
@@ -47,6 +48,7 @@ export default function Layout(props: Readonly<{ children: React.ReactNode }>) {
           </SidebarInset>
         </SidebarProvider>
       </body>
+      <GoogleAnalytics gaId="G-X4PPBPKHPM" />
     </html>
   );
 }
