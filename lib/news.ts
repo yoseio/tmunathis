@@ -17,7 +17,7 @@ export interface NewsMetadata {
   id: string;
   title: string;
   date: Date;
-  published: boolean;
+  published?: boolean;
 }
 
 function parseNewsMetadata(
@@ -32,7 +32,7 @@ function parseNewsMetadata(
     const title = (titleProperty.title as any)[0].text.content;
     const date = dateProperty.date?.start;
     const published = publishedProperty.checkbox;
-    if (!title || !date || !published) {
+    if (!title || !date) {
       return null;
     }
     return { id, title, date: new Date(date), published };
