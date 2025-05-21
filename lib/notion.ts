@@ -3,6 +3,7 @@ import { NotionToMarkdown } from "notion-to-md";
 
 import { NOTION_TOKEN } from "./constants";
 import {
+  CheckboxPropertyItemObjectResponse,
   DatePropertyItemObjectResponse,
   FilesPropertyItemObjectResponse,
   NumberPropertyItemObjectResponse,
@@ -48,5 +49,13 @@ export function isFilesProperty(
 ): property is FilesPropertyItemObjectResponse {
   return (
     typeof property === "object" && property !== null && "files" in property
+  );
+}
+
+export function isCheckboxProperty(
+  property: unknown
+): property is CheckboxPropertyItemObjectResponse {
+  return (
+    typeof property === "object" && property !== null && "checkbox" in property
   );
 }

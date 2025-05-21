@@ -6,6 +6,7 @@ import { MdBlock } from "notion-to-md/build/types";
 
 import { NEWS_DATABASE_ID } from "./constants";
 import {
+  isCheckboxProperty,
   isDateProperty,
   isTitleProperty,
   Notion2MD,
@@ -16,6 +17,7 @@ export interface NewsMetadata {
   id: string;
   title: string;
   date: Date;
+  published: boolean;
 }
 
 function parseNewsMetadata(
@@ -23,15 +25,17 @@ function parseNewsMetadata(
 ): NewsMetadata | null {
   const titleProperty = data.properties["タイトル"];
   const dateProperty = data.properties["日付"];
-  if (isTitleProperty(titleProperty) && isDateProperty(dateProperty)) {
+  const publishedProperty = data.properties["公開"];
+  if (isTitleProperty(titleProperty) && isDateProperty(dateProperty) && isCheckboxProperty(publishedProperty)) {
     const id = data.id;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const title = (titleProperty.title as any)[0].text.content;
     const date = dateProperty.date?.start;
-    if (!title || !date) {
+    const published = publishedProperty.checkbox;
+    if (!title || !date || !published) {
       return null;
     }
-    return { id, title, date: new Date(date) };
+    return { id, title, date: new Date(date), published };
   } else {
     return null;
   }
@@ -49,7 +53,8 @@ export async function getAllNewsMetadata(): Promise<NewsMetadata[]> {
   });
   const news = (res.results as DatabaseObjectResponse[])
     .map(parseNewsMetadata)
-    .filter((item) => item !== null) as NewsMetadata[];
+    .filter((item) => item !== null)
+    .filter((item) => item.published);
   return news;
 }
 
