@@ -9,6 +9,7 @@ export function AppHeader() {
   const segment = useSelectedLayoutSegment();
   const segmentMap: Record<string, string> = {
     index: "ホーム",
+    news: "お知らせ",
     posts: "ブログ",
     species: "図鑑",
     maps: "地図",
